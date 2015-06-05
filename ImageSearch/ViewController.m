@@ -8,9 +8,10 @@
 
 #import "ViewController.h"
 
-@interface ViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate, UISearchControllerDelegate>
+@interface ViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UICollectionView *imageCollectionView;
-@property (nonatomic, strong) UIBarButtonItem *searchItem;
+@property (nonatomic, strong) UISearchBar *searchBar;
+@property (nonatomic, strong) UITableView *searchResultsTableView;
 @end
 
 @implementation ViewController
@@ -19,7 +20,8 @@
     [super viewDidLoad];
     self.title = @"Image Search";
     [self setupImageCollectionView];
-    [self setupSearchBarItem];
+    [self setupSearchBar];
+    [self setupSearchResultsTableView];
 }
 
 #pragma mark - Set Up imageCollectionVC
@@ -60,20 +62,71 @@
     return cell;
 }
 
-#pragma mark - Set Up Search BarItem
-- (void)setupSearchBarItem
+#pragma mark - Set Up searchBar
+- (void)setupSearchBar
 {
-    self.searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
-                                                                    target:self
-                                                                    action:@selector(activateSearch:)];
-    self.navigationItem.rightBarButtonItem = self.searchItem;
+    self.searchBar = [[UISearchBar alloc] init];
+    self.searchBar.delegate = self;
+    [self.searchBar sizeToFit];
+    [self.navigationItem setTitleView:self.searchBar];
 }
 
-- (void)activateSearch:(id)sender
+#pragma mark - UISearchBar Delegate
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
-    NSLog(@"search btn clicked");
+    if (![self.searchResultsTableView isDescendantOfView:self.view]) {
+        [self.view addSubview:self.searchResultsTableView];
+        [self setupCancelButtonWhenSearching];
+    }
 }
 
+// add a cancel button in navigation bar to exit the search
+- (void)setupCancelButtonWhenSearching
+{
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(exitSearch:)];
+    self.navigationItem.leftBarButtonItem = backButton;
+}
+
+// exit search and go back to image list
+- (void)exitSearch:(id)sender
+{
+    self.searchBar.text = nil;
+    [self.searchBar resignFirstResponder];
+    self.navigationItem.leftBarButtonItem = nil;
+    [self.searchResultsTableView removeFromSuperview];
+}
+
+#pragma mark - set up searchResultsTableView
+// initialize searchResultsTableView
+- (void)setupSearchResultsTableView
+{
+    CGRect frame = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height-64);
+    self.searchResultsTableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
+    self.searchResultsTableView.delegate = self;
+    self.searchResultsTableView.dataSource = self;
+}
+
+#pragma mark - UITableView Data Source
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 2;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *cellIdentifier = @"searchResultsCell";
+    UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    }
+    cell.textLabel.text = @"search result";
+    return cell;
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
