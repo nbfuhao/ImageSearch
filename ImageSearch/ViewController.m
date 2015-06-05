@@ -8,8 +8,9 @@
 
 #import "ViewController.h"
 
-@interface ViewController ()<UICollectionViewDataSource, UICollectionViewDelegate>
+@interface ViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate, UISearchControllerDelegate>
 @property (nonatomic, strong) UICollectionView *imageCollectionView;
+@property (nonatomic, strong) UIBarButtonItem *searchItem;
 @end
 
 @implementation ViewController
@@ -17,11 +18,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"Image Search";
-    [self setupImageCollectionVC];
+    [self setupImageCollectionView];
+    [self setupSearchBarItem];
 }
 
-#pragma mark - setup imageCollectionVC
-- (void)setupImageCollectionVC
+#pragma mark - Set Up imageCollectionVC
+- (void)setupImageCollectionView
 {
     // set a flow layout for the collection view
     UICollectionViewFlowLayout *aFlowLayout = [[UICollectionViewFlowLayout alloc] init];
@@ -56,6 +58,20 @@
     UICollectionViewCell *cell = [self.imageCollectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
     cell.backgroundColor = [UIColor whiteColor];
     return cell;
+}
+
+#pragma mark - Set Up Search BarItem
+- (void)setupSearchBarItem
+{
+    self.searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
+                                                                    target:self
+                                                                    action:@selector(activateSearch:)];
+    self.navigationItem.rightBarButtonItem = self.searchItem;
+}
+
+- (void)activateSearch:(id)sender
+{
+    NSLog(@"search btn clicked");
 }
 
 
