@@ -17,6 +17,7 @@
 @property (nonatomic, strong) UITableView *searchResultsTableView;
 @property (nonatomic, strong) ISNetworkManager *networkManager;
 @property (nonatomic, strong) NSMutableArray *imageURLsArray;
+@property (nonatomic, assign) int page;
 @end
 
 @implementation ViewController
@@ -24,19 +25,26 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"Image Search";
-    [self setupNetworkManager];
+    [self initVariables];
+    [self loadImages];
     [self setupImageCollectionView];
     [self setupSearchBar];
     [self setupSearchResultsTableView];
 }
 
-#pragma mark - Set Up NetworkManager
-- (void)setupNetworkManager
+#pragma mark - Initialize Variables
+- (void)initVariables
 {
+    self.page = 0;
     self.imageURLsArray = [NSMutableArray array];
     self.networkManager = [ISNetworkManager sharedNetworkManager];
-    [self.networkManager fetchImagesWithPageNumber:0 WithSearchTerm:@"football" WithCompletion:^(NSMutableArray *imageURLsArray) {
-        self.imageURLsArray = imageURLsArray;
+}
+
+#pragma mark - Set Up NetworkManager
+- (void)loadImages
+{
+    [self.networkManager fetchImagesWithPageNumber:self.page WithSearchTerm:@"football" WithCompletion:^(NSMutableArray *imageURLsArray) {
+        [self.imageURLsArray addObjectsFromArray:imageURLsArray];
         [self.imageCollectionView reloadData];
     }];
 }
@@ -84,6 +92,22 @@
     return cell;
 }
 
+- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath NS_AVAILABLE_IOS(8_0);
+{
+    NSInteger lastSectionIndex = [collectionView numberOfSections] - 1;
+    NSInteger lastRowIndex = [collectionView numberOfItemsInSection:lastSectionIndex] - 4;
+    if ((indexPath.section == lastSectionIndex) && (indexPath.row == lastRowIndex)) {
+        // This is the last cell
+        [self loadMore];
+    }
+}
+
+- (void)loadMore
+{
+    self.page += 1;
+    [self loadImages];
+}
+
 #pragma mark - Set Up searchBar
 - (void)setupSearchBar
 {
@@ -106,7 +130,7 @@
 - (void)setupCancelButtonWhenSearching
 {
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(exitSearch:)];
-    self.navigationItem.leftBarButtonItem = backButton;
+    self.navigationItem.rightBarButtonItem = backButton;
 }
 
 // exit search and go back to image list
@@ -114,7 +138,7 @@
 {
     self.searchBar.text = nil;
     [self.searchBar resignFirstResponder];
-    self.navigationItem.leftBarButtonItem = nil;
+    self.navigationItem.rightBarButtonItem = nil;
     [self.searchResultsTableView removeFromSuperview];
 }
 
