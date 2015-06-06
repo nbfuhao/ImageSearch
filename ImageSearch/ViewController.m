@@ -15,10 +15,11 @@
 @interface ViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UICollectionView *imageCollectionView;
 @property (nonatomic, strong) UISearchBar *searchBar;
-@property (nonatomic, strong) UITableView *searchResultsTableView;
+@property (nonatomic, strong) UITableView *searchRecordsTableView;
 @property (nonatomic, strong) ISNetworkManager *networkManager;
 @property (nonatomic, strong) NSMutableArray *imageURLsArray;
 @property (nonatomic, copy) NSString *searchTerm;
+@property (nonatomic, strong) NSMutableArray *searchRecordsArray;
 @property (nonatomic, assign) int page;
 @end
 
@@ -137,10 +138,20 @@
 #pragma mark - UISearchBar Delegate
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
-    if (![self.searchResultsTableView isDescendantOfView:self.view]) {
-        [self.view addSubview:self.searchResultsTableView];
+    if (![self.searchRecordsTableView isDescendantOfView:self.view]) {
+        [self.view addSubview:self.searchRecordsTableView];
         [self setupCancelButtonWhenSearching];
+        [self retrieveSearchRecordsArr];
     }
+}
+
+- (void)retrieveSearchRecordsArr
+{
+    //Init user defaults
+    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+    //For retrieving
+    self.searchRecordsArray = [NSMutableArray arrayWithArray:[defaults objectForKey:@"searchRecords"]];
+    [self.searchRecordsTableView reloadData];
 }
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
@@ -149,9 +160,19 @@
     [self.imageURLsArray removeAllObjects];
     [self.imageCollectionView reloadData];
     [self.searchBar resignFirstResponder];
+    [self handleAddSearchRecord];
     self.page = 0;
-    [self.searchResultsTableView removeFromSuperview];
+    [self.searchRecordsTableView removeFromSuperview];
     [self loadImages];
+}
+
+- (void) handleAddSearchRecord {
+    if (![self.searchRecordsArray containsObject:self.searchBar.text]) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [self.searchRecordsArray insertObject:self.searchBar.text atIndex:0];
+        [defaults setObject:self.searchRecordsArray forKey:@"searchRecords"];
+        [defaults synchronize];
+    }
 }
 
 // add a cancel button in navigation bar to exit the search
@@ -167,7 +188,7 @@
     self.searchBar.text = nil;
     [self.searchBar resignFirstResponder];
     self.navigationItem.rightBarButtonItem = nil;
-    [self.searchResultsTableView removeFromSuperview];
+    [self.searchRecordsTableView removeFromSuperview];
 }
 
 #pragma mark - set up searchResultsTableView
@@ -175,9 +196,9 @@
 - (void)setupSearchResultsTableView
 {
     CGRect frame = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height-64);
-    self.searchResultsTableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
-    self.searchResultsTableView.delegate = self;
-    self.searchResultsTableView.dataSource = self;
+    self.searchRecordsTableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
+    self.searchRecordsTableView.delegate = self;
+    self.searchRecordsTableView.dataSource = self;
 }
 
 #pragma mark - UITableView Data Source
@@ -188,7 +209,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 2;
+    return self.searchRecordsArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -198,7 +219,8 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
-    cell.textLabel.text = @"search result";
+    NSString *searchRecord = [self.searchRecordsArray objectAtIndex:indexPath.row];
+    cell.textLabel.text = searchRecord;
     return cell;
 }
 
