@@ -60,7 +60,6 @@
 - (void)loadImages
 {
     [self.networkManager fetchImagesWithPageNumber:self.page WithSearchTerm:self.searchTerm WithCompletion:^(NSMutableArray *imageURLsArray) {
-        NSLog(@"imageurls array. %@", imageURLsArray);
         [self.imageURLsArray addObjectsFromArray:imageURLsArray];
         [self.imageCollectionView reloadData];
     }];
