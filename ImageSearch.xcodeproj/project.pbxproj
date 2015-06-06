@@ -15,6 +15,7 @@
 		847856111B2244F7002F19FC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 847856101B2244F7002F19FC /* Images.xcassets */; };
 		847856141B2244F7002F19FC /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 847856121B2244F7002F19FC /* LaunchScreen.xib */; };
 		847856201B2244F7002F19FC /* ImageSearchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8478561F1B2244F7002F19FC /* ImageSearchTests.m */; };
+		8478562B1B227621002F19FC /* ISNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8478562A1B227621002F19FC /* ISNetworkManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,8 @@
 		847856191B2244F7002F19FC /* ImageSearchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageSearchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8478561E1B2244F7002F19FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8478561F1B2244F7002F19FC /* ImageSearchTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageSearchTests.m; sourceTree = "<group>"; };
+		847856291B227621002F19FC /* ISNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISNetworkManager.h; sourceTree = "<group>"; };
+		8478562A1B227621002F19FC /* ISNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISNetworkManager.m; sourceTree = "<group>"; };
 		8A194FA8A4B8589DCC009D93 /* Pods-ImageSearch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageSearch.release.xcconfig"; path = "Pods/Target Support Files/Pods-ImageSearch/Pods-ImageSearch.release.xcconfig"; sourceTree = "<group>"; };
 		B9D1DFA59C2CA769449A587D /* Pods_ImageSearch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ImageSearch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -92,6 +95,8 @@
 				847856081B2244F7002F19FC /* AppDelegate.m */,
 				8478560A1B2244F7002F19FC /* ViewController.h */,
 				8478560B1B2244F7002F19FC /* ViewController.m */,
+				847856291B227621002F19FC /* ISNetworkManager.h */,
+				8478562A1B227621002F19FC /* ISNetworkManager.m */,
 				8478560D1B2244F7002F19FC /* Main.storyboard */,
 				847856101B2244F7002F19FC /* Images.xcassets */,
 				847856121B2244F7002F19FC /* LaunchScreen.xib */,
@@ -297,6 +302,7 @@
 			files = (
 				8478560C1B2244F7002F19FC /* ViewController.m in Sources */,
 				847856091B2244F7002F19FC /* AppDelegate.m in Sources */,
+				8478562B1B227621002F19FC /* ISNetworkManager.m in Sources */,
 				847856061B2244F7002F19FC /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

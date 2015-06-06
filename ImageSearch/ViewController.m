@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "ISNetworkManager.h"
 
 @interface ViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UICollectionView *imageCollectionView;
