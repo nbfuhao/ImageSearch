@@ -32,7 +32,7 @@
 
 - (void)fetchImagesWithPageNumber:(int)page WithSearchTerm:(NSString *)searchTerm WithCompletion:(void (^)(NSMutableArray *imageURLsArray))completion
 {
-    NSString *pageNumber = [NSString stringWithFormat:@"%d", page];
+    NSString *pageNumber = [NSString stringWithFormat:@"%d", page*8];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     [manager GET:kBaseImageURL parameters:@{
                                            @"q": searchTerm,
