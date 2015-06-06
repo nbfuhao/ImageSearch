@@ -59,6 +59,7 @@
 - (void)loadImages
 {
     [self.networkManager fetchImagesWithPageNumber:self.page WithSearchTerm:self.searchTerm WithCompletion:^(NSMutableArray *imageURLsArray) {
+        NSLog(@"imageurls array. %@", imageURLsArray);
         [self.imageURLsArray addObjectsFromArray:imageURLsArray];
         [self.imageCollectionView reloadData];
     }];
@@ -146,7 +147,9 @@
 {
     self.searchTerm = searchBar.text;
     [self.imageURLsArray removeAllObjects];
+    [self.imageCollectionView reloadData];
     [self.searchBar resignFirstResponder];
+    self.page = 0;
     [self.searchResultsTableView removeFromSuperview];
     [self loadImages];
 }
