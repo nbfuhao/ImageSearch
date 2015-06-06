@@ -29,10 +29,11 @@
 {
     // set a flow layout for the collection view
     UICollectionViewFlowLayout *aFlowLayout = [[UICollectionViewFlowLayout alloc] init];
-    [aFlowLayout setItemSize:CGSizeMake(100, 100)];
+    [aFlowLayout setItemSize:CGSizeMake(115, 115)];
     [aFlowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
-    [aFlowLayout setMinimumInteritemSpacing:5];
-    [aFlowLayout setSectionInset:UIEdgeInsetsMake(15, 5, 15, 5)];
+    [aFlowLayout setMinimumInteritemSpacing:10];
+    [aFlowLayout setMinimumLineSpacing:45];
+    [aFlowLayout setSectionInset:UIEdgeInsetsMake(15, 4, 15, 4)];
     
     // initialize collection view
     self.imageCollectionView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:aFlowLayout];
