@@ -7,11 +7,14 @@
 //
 
 #import "ISNetworkManager.h"
+#import <AFNetworking/AFNetworking.h>
+
+#define kBaseImageURL @"https://ajax.googleapis.com/ajax/services/search/images"
 
 @implementation ISNetworkManager
 
 #pragma mark create a singleton
-+ (id)sharedSyncController
++ (id)sharedNetworkManager
 {
     static ISNetworkManager *sharedNetworkManager = nil;
     static dispatch_once_t onceToken;
@@ -26,4 +29,31 @@
     }
     return self;
 }
+
+- (void)fetchImagesWithPageNumber:(int)page WithSearchTerm:(NSString *)searchTerm WithCompletion:(void (^)(NSMutableArray *imageURLsArray))completion
+{
+    NSString *pageNumber = [NSString stringWithFormat:@"%d", page];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    [manager GET:kBaseImageURL parameters:@{
+                                           @"q": searchTerm,
+                                           @"v": @"1.0",
+                                           @"rsz": @"8",
+                                           @"start": pageNumber,
+                                           }
+         success:^(AFHTTPRequestOperation *operation, id responseObject){
+             NSDictionary *responseDic = [responseObject objectForKey:@"responseData"];
+             NSDictionary *resultDic = [responseDic objectForKey:@"results"];
+             NSMutableArray *imageURLsArray = [NSMutableArray array];
+             for (NSDictionary *imageDic in resultDic) {
+                 NSString *imageURLStr = [imageDic objectForKey:@"url"];
+                 NSURL *imageURL = [NSURL URLWithString:imageURLStr];
+                 [imageURLsArray addObject:imageURL];
+             }
+             completion(imageURLsArray);
+             
+         }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+             NSLog(@"Error: %@", error);
+         }];
+}
+
 @end

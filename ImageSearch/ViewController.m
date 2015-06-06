@@ -13,6 +13,8 @@
 @property (nonatomic, strong) UICollectionView *imageCollectionView;
 @property (nonatomic, strong) UISearchBar *searchBar;
 @property (nonatomic, strong) UITableView *searchResultsTableView;
+@property (nonatomic, strong) ISNetworkManager *networkManager;
+@property (nonatomic, strong) NSMutableArray *imageURLsArray;
 @end
 
 @implementation ViewController
@@ -20,9 +22,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"Image Search";
+    [self setupNetworkManager];
     [self setupImageCollectionView];
     [self setupSearchBar];
     [self setupSearchResultsTableView];
+}
+
+#pragma mark - Set Up NetworkManager
+- (void)setupNetworkManager
+{
+    self.imageURLsArray = [NSMutableArray array];
+    self.networkManager = [ISNetworkManager sharedNetworkManager];
+    [self.networkManager fetchImagesWithPageNumber:0 WithSearchTerm:@"google" WithCompletion:^(NSMutableArray *imageURLsArray) {
+        self.imageURLsArray = imageURLsArray;
+        [self.imageCollectionView reloadData];
+    }];
 }
 
 #pragma mark - Set Up imageCollectionVC
@@ -52,7 +66,7 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 4;
+    return self.imageURLsArray.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
