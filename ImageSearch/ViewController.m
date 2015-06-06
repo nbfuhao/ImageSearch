@@ -12,6 +12,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <Reachability/Reachability.h>
 #import "ISSearchRecordsTableViewCell.h"
+#import <SVProgressHUD/SVProgressHUD.h>
 
 @interface ViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UICollectionView *imageCollectionView;
@@ -22,6 +23,7 @@
 @property (nonatomic, copy) NSString *searchTerm;
 @property (nonatomic, strong) NSMutableArray *searchRecordsArray;
 @property (nonatomic, assign) int page;
+@property (nonatomic, assign) BOOL noMoreItems;
 @end
 
 @implementation ViewController
@@ -29,6 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"Image Search";
+    self.noMoreItems = false;
     BOOL isReachable = [self checkReachability];
     if (isReachable) {
         [self initVariables];
@@ -61,8 +64,13 @@
 - (void)loadImages
 {
     [self.networkManager fetchImagesWithPageNumber:self.page WithSearchTerm:self.searchTerm WithCompletion:^(NSMutableArray *imageURLsArray) {
-        [self.imageURLsArray addObjectsFromArray:imageURLsArray];
-        [self.imageCollectionView reloadData];
+        NSLog(@"array, %@", imageURLsArray);
+        if (imageURLsArray.count == 0) {
+            self.noMoreItems = true;
+        } else {
+            [self.imageURLsArray addObjectsFromArray:imageURLsArray];
+            [self.imageCollectionView reloadData];
+        }
     }];
 }
 
@@ -113,7 +121,7 @@
 {
     NSInteger lastSectionIndex = [collectionView numberOfSections] - 1;
     NSInteger lastRowIndex = [collectionView numberOfItemsInSection:lastSectionIndex] - 4;
-    if ((indexPath.section == lastSectionIndex) && (indexPath.row == lastRowIndex)) {
+    if ((indexPath.section == lastSectionIndex) && (indexPath.row == lastRowIndex) && (!self.noMoreItems)) {
         // This is the last cell
         [self loadMore];
     }
@@ -163,6 +171,7 @@
 - (void)endSearchHandler
 {
     [self.imageURLsArray removeAllObjects];
+    self.noMoreItems = false;
     [self.imageCollectionView reloadData];
     [self.searchBar resignFirstResponder];
     self.navigationItem.rightBarButtonItem = nil;
