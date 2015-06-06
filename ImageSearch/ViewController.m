@@ -10,6 +10,7 @@
 #import "ISNetworkManager.h"
 #import "imageCollectionViewCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <Reachability/Reachability.h>
 
 @interface ViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UICollectionView *imageCollectionView;
@@ -17,6 +18,7 @@
 @property (nonatomic, strong) UITableView *searchResultsTableView;
 @property (nonatomic, strong) ISNetworkManager *networkManager;
 @property (nonatomic, strong) NSMutableArray *imageURLsArray;
+@property (nonatomic, copy) NSString *searchTerm;
 @property (nonatomic, assign) int page;
 @end
 
@@ -25,12 +27,25 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"Image Search";
-    [self initVariables];
-    [self loadImages];
-    [self setupImageCollectionView];
-    [self setupSearchBar];
-    [self setupSearchResultsTableView];
+    BOOL isReachable = [self checkReachability];
+    if (isReachable) {
+        [self initVariables];
+        //[self loadImages];
+        [self setupImageCollectionView];
+        [self setupSearchBar];
+        [self setupSearchResultsTableView];
+    } else {
+        [self noInternetHandler];
+    }
 }
+
+#pragma mark - check reachability
+-(BOOL)checkReachability
+{
+    Reachability *reachability = [Reachability reachabilityForInternetConnection];
+    return reachability.isReachable;
+}
+
 
 #pragma mark - Initialize Variables
 - (void)initVariables
@@ -43,7 +58,7 @@
 #pragma mark - Set Up NetworkManager
 - (void)loadImages
 {
-    [self.networkManager fetchImagesWithPageNumber:self.page WithSearchTerm:@"football" WithCompletion:^(NSMutableArray *imageURLsArray) {
+    [self.networkManager fetchImagesWithPageNumber:self.page WithSearchTerm:self.searchTerm WithCompletion:^(NSMutableArray *imageURLsArray) {
         [self.imageURLsArray addObjectsFromArray:imageURLsArray];
         [self.imageCollectionView reloadData];
     }];
@@ -112,6 +127,7 @@
 - (void)setupSearchBar
 {
     self.searchBar = [[UISearchBar alloc] init];
+    self.searchBar.placeholder = @"Powered by Google";
     self.searchBar.delegate = self;
     [self.searchBar sizeToFit];
     [self.navigationItem setTitleView:self.searchBar];
@@ -124,6 +140,15 @@
         [self.view addSubview:self.searchResultsTableView];
         [self setupCancelButtonWhenSearching];
     }
+}
+
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    self.searchTerm = searchBar.text;
+    [self.imageURLsArray removeAllObjects];
+    [self.searchBar resignFirstResponder];
+    [self.searchResultsTableView removeFromSuperview];
+    [self loadImages];
 }
 
 // add a cancel button in navigation bar to exit the search
@@ -177,6 +202,13 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)noInternetHandler
+{
+    UILabel *noInternetLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 100, self.view.frame.size.width, 30)];
+    noInternetLabel.text = @"Cannot connect to internet";
+    [self.view addSubview:noInternetLabel];
 }
 
 @end
