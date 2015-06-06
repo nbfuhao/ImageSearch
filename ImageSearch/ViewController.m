@@ -11,7 +11,7 @@
 #import "imageCollectionViewCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <Reachability/Reachability.h>
-
+#import "ISSearchRecordsTableViewCell.h"
 @interface ViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UICollectionView *imageCollectionView;
 @property (nonatomic, strong) UISearchBar *searchBar;
@@ -219,13 +219,26 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellIdentifier = @"searchResultsCell";
-    UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    [tableView registerNib:[UINib nibWithNibName:@"ISSearchRecordsTableViewCell" bundle:NULL] forCellReuseIdentifier:cellIdentifier];
+
+    ISSearchRecordsTableViewCell *cell = (ISSearchRecordsTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        cell = [[ISSearchRecordsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     NSString *searchRecord = [self.searchRecordsArray objectAtIndex:indexPath.row];
-    cell.textLabel.text = searchRecord;
+    cell.searchRecordLabel.text = searchRecord;
+    cell.deleteButton.tag = indexPath.row;
+    [cell.deleteButton addTarget:self action:@selector(deleteRecordHandler:) forControlEvents:UIControlEventTouchUpInside];
     return cell;
+}
+
+- (void)deleteRecordHandler:(UIButton *)button
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [self.searchRecordsArray removeObjectAtIndex:button.tag];
+    [defaults setObject:self.searchRecordsArray forKey:@"searchRecords"];
+    [defaults synchronize];
+    [self.searchRecordsTableView reloadData];
 }
 
 #pragma mark - UITableView Data Source
