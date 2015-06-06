@@ -156,7 +156,12 @@
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    self.searchTerm = searchBar.text;
+    self.searchTerm = self.searchBar.text;
+    [self endSearchHandler];
+}
+
+- (void)endSearchHandler
+{
     [self.imageURLsArray removeAllObjects];
     [self.imageCollectionView reloadData];
     [self.searchBar resignFirstResponder];
@@ -224,9 +229,13 @@
     return cell;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+#pragma mark - UITableView Data Source
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *searchRecord = [self.searchRecordsArray objectAtIndex:indexPath.row];
+    self.searchBar.text = searchRecord;
+    self.searchTerm = searchRecord;
+    [self endSearchHandler];
 }
 
 - (void)noInternetHandler
@@ -234,6 +243,11 @@
     UILabel *noInternetLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 100, self.view.frame.size.width, 30)];
     noInternetLabel.text = @"Cannot connect to internet";
     [self.view addSubview:noInternetLabel];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 @end
