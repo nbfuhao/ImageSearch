@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface ISSearchRecordsTableViewCell : UITableViewCell
+
 @property (weak, nonatomic) IBOutlet UILabel *searchRecordLabel;
 @property (weak, nonatomic) IBOutlet UIButton *deleteButton;
 

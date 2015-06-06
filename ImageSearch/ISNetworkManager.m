@@ -13,7 +13,7 @@
 
 @implementation ISNetworkManager
 
-#pragma mark create a singleton
+// Create a singleton object
 + (id)sharedNetworkManager
 {
     static ISNetworkManager *sharedNetworkManager = nil;
@@ -30,8 +30,10 @@
     return self;
 }
 
+// Fetch image URLS.
 - (void)fetchImagesWithPageNumber:(int)page WithSearchTerm:(NSString *)searchTerm WithCompletion:(void (^)(NSMutableArray *imageURLsArray))completion
 {
+    // Make sure the images do not overlap
     NSString *pageNumber = [NSString stringWithFormat:@"%d", page*8];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     [manager GET:kBaseImageURL parameters:@{

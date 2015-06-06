@@ -12,7 +12,7 @@
 
 +(id)sharedNetworkManager;
 
-// method that fetches image URLs
+// Method that fetches image URLs
 - (void)fetchImagesWithPageNumber:(int)page WithSearchTerm:(NSString *)searchTerm WithCompletion:(void (^) (NSMutableArray *imagesArray))completion;
 
 @end
