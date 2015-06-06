@@ -12,6 +12,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <Reachability/Reachability.h>
 #import "ISSearchRecordsTableViewCell.h"
+
 @interface ViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UICollectionView *imageCollectionView;
 @property (nonatomic, strong) UISearchBar *searchBar;
@@ -70,10 +71,10 @@
 {
     // set a flow layout for the collection view
     UICollectionViewFlowLayout *aFlowLayout = [[UICollectionViewFlowLayout alloc] init];
-    [aFlowLayout setItemSize:CGSizeMake(115, 115)];
+    [aFlowLayout setItemSize:CGSizeMake(96,96)];
     [aFlowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
     [aFlowLayout setMinimumInteritemSpacing:10];
-    [aFlowLayout setMinimumLineSpacing:45];
+    [aFlowLayout setMinimumLineSpacing:15];
     [aFlowLayout setSectionInset:UIEdgeInsetsMake(15, 4, 15, 4)];
     
     // initialize collection view
@@ -164,6 +165,7 @@
     [self.imageURLsArray removeAllObjects];
     [self.imageCollectionView reloadData];
     [self.searchBar resignFirstResponder];
+    self.navigationItem.rightBarButtonItem = nil;
     [self handleAddSearchRecord];
     self.page = 0;
     [self.searchRecordsTableView removeFromSuperview];
