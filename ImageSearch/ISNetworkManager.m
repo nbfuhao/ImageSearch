@@ -39,6 +39,8 @@
                                            @"v": @"1.0",
                                            @"rsz": @"8",
                                            @"start": pageNumber,
+                                           @"as_filetype":@"jpg",
+                                           @"imgsz":@"small"
                                            }
          success:^(AFHTTPRequestOperation *operation, id responseObject){
              NSDictionary *responseDic = [responseObject objectForKey:@"responseData"];

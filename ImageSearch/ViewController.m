@@ -8,6 +8,8 @@
 
 #import "ViewController.h"
 #import "ISNetworkManager.h"
+#import "imageCollectionViewCell.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface ViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UICollectionView *imageCollectionView;
@@ -33,7 +35,7 @@
 {
     self.imageURLsArray = [NSMutableArray array];
     self.networkManager = [ISNetworkManager sharedNetworkManager];
-    [self.networkManager fetchImagesWithPageNumber:0 WithSearchTerm:@"google" WithCompletion:^(NSMutableArray *imageURLsArray) {
+    [self.networkManager fetchImagesWithPageNumber:0 WithSearchTerm:@"football" WithCompletion:^(NSMutableArray *imageURLsArray) {
         self.imageURLsArray = imageURLsArray;
         [self.imageCollectionView reloadData];
     }];
@@ -72,9 +74,12 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellIdentifier = @"imageCell";
-    [self.imageCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:cellIdentifier];
-    UICollectionViewCell *cell = [self.imageCollectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
-    cell.backgroundColor = [UIColor whiteColor];
+    [self.imageCollectionView registerClass:[imageCollectionViewCell class] forCellWithReuseIdentifier:cellIdentifier];
+    imageCollectionViewCell *cell = [self.imageCollectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
+    NSURL *imageURL = [self.imageURLsArray objectAtIndex:indexPath.row];
+    //[cell.itemImageView sd_setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"placeholder"]];
+    //[cell.itemImageView setImage:[UIImage imageNamed:@"placeholder"]];
+    cell.backgroundColor = [UIColor greenColor];
     return cell;
 }
 
