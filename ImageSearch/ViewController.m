@@ -64,7 +64,6 @@
 - (void)loadImages
 {
     [self.networkManager fetchImagesWithPageNumber:self.page WithSearchTerm:self.searchTerm WithCompletion:^(NSMutableArray *imageURLsArray) {
-        NSLog(@"array, %@", imageURLsArray);
         if (imageURLsArray.count == 0) {
             self.noMoreItems = true;
         } else {

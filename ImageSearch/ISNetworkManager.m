@@ -43,17 +43,17 @@
                                            @"imgsz":@"small"
                                            }
          success:^(AFHTTPRequestOperation *operation, id responseObject){
+             NSMutableArray *imageURLsArray = [NSMutableArray array];
              NSDictionary *responseDic = [responseObject objectForKey:@"responseData"];
              if (![responseDic isKindOfClass:[NSNull class]]) {
                  NSDictionary *resultDic = [responseDic objectForKey:@"results"];
-                 NSMutableArray *imageURLsArray = [NSMutableArray array];
                  for (NSDictionary *imageDic in resultDic) {
                      NSString *imageURLStr = [imageDic objectForKey:@"url"];
                      NSURL *imageURL = [NSURL URLWithString:imageURLStr];
                      [imageURLsArray addObject:imageURL];
                  }
-                 completion(imageURLsArray);
              }
+             completion(imageURLsArray);
          }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
              NSLog(@"Error: %@", error);
          }];
