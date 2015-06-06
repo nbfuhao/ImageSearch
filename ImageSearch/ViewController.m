@@ -57,6 +57,10 @@
     self.imageCollectionView.delegate = self;
     self.imageCollectionView.dataSource = self;
     [self.imageCollectionView setBackgroundColor:[UIColor blackColor]];
+    
+    // register the custom collection view cell with the view
+    UINib *liveNib = [UINib nibWithNibName:@"imageCollectionViewCell" bundle:nil];
+    [self.imageCollectionView registerNib:liveNib forCellWithReuseIdentifier:@"imageCell"];
     [self.view addSubview:self.imageCollectionView];
 }
 
@@ -74,12 +78,9 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellIdentifier = @"imageCell";
-    [self.imageCollectionView registerClass:[imageCollectionViewCell class] forCellWithReuseIdentifier:cellIdentifier];
     imageCollectionViewCell *cell = [self.imageCollectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
     NSURL *imageURL = [self.imageURLsArray objectAtIndex:indexPath.row];
-    //[cell.itemImageView sd_setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"placeholder"]];
-    //[cell.itemImageView setImage:[UIImage imageNamed:@"placeholder"]];
-    cell.backgroundColor = [UIColor greenColor];
+    [cell.itemImageView sd_setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"placeholder"]];
     return cell;
 }
 
