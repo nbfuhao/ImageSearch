@@ -30,17 +30,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"Image Search";
     self.noMoreItems = false;
     BOOL isReachable = [self checkReachability];
     if (isReachable) {
         [self initVariables];
-        //[self loadImages];
         [self setupImageCollectionView];
         [self setupSearchBar];
         [self setupSearchResultsTableView];
-    } else {
-        [self noInternetHandler];
     }
 }
 
@@ -258,13 +254,6 @@
     self.searchBar.text = searchRecord;
     self.searchTerm = searchRecord;
     [self endSearchHandler];
-}
-
-- (void)noInternetHandler
-{
-    UILabel *noInternetLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 100, self.view.frame.size.width, 30)];
-    noInternetLabel.text = @"Cannot connect to internet";
-    [self.view addSubview:noInternetLabel];
 }
 
 - (void)didReceiveMemoryWarning {
