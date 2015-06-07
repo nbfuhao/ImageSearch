@@ -30,7 +30,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.noMoreItems = false;
     BOOL isReachable = [self checkReachability];
     if (isReachable) {
         [self initVariables];
@@ -51,6 +50,7 @@
 #pragma mark - Initialize Variables
 - (void)initVariables
 {
+    self.noMoreItems = false;
     self.page = 0;
     self.imageURLsArray = [NSMutableArray array];
     self.networkManager = [ISNetworkManager sharedNetworkManager];
@@ -61,6 +61,7 @@
 {
     [self.networkManager fetchImagesWithPageNumber:self.page WithSearchTerm:self.searchTerm WithCompletion:^(NSMutableArray *imageURLsArray) {
         if (imageURLsArray.count == 0) {
+            // Change the noMoreItems flag if the returned array is empty
             self.noMoreItems = true;
         } else {
             [self.imageURLsArray addObjectsFromArray:imageURLsArray];
@@ -72,7 +73,7 @@
 #pragma mark - Set Up imageCollectionVC
 - (void)setupImageCollectionView
 {
-    // set a flow layout for the collection view
+    // Set a flow layout for the collection view
     UICollectionViewFlowLayout *aFlowLayout = [[UICollectionViewFlowLayout alloc] init];
     [aFlowLayout setItemSize:CGSizeMake(96,96)];
     [aFlowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
@@ -80,13 +81,13 @@
     [aFlowLayout setMinimumLineSpacing:15];
     [aFlowLayout setSectionInset:UIEdgeInsetsMake(15, 4, 15, 4)];
     
-    // initialize collection view
+    // Initialize collection view
     self.imageCollectionView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:aFlowLayout];
     self.imageCollectionView.delegate = self;
     self.imageCollectionView.dataSource = self;
     [self.imageCollectionView setBackgroundColor:[UIColor blackColor]];
     
-    // register the custom collection view cell with the view
+    // Register the custom collection view cell with the view
     UINib *liveNib = [UINib nibWithNibName:@"imageCollectionViewCell" bundle:nil];
     [self.imageCollectionView registerNib:liveNib forCellWithReuseIdentifier:@"imageCell"];
     [self.view addSubview:self.imageCollectionView];
@@ -122,6 +123,7 @@
     }
 }
 
+// Load more images by incrementing page number
 - (void)loadMore
 {
     self.page += 1;
@@ -132,6 +134,7 @@
 - (void)setupSearchBar
 {
     self.searchBar = [[UISearchBar alloc] init];
+    // As required by the Google Image Search API docs
     self.searchBar.placeholder = @"Powered by Google";
     self.searchBar.delegate = self;
     [self.searchBar sizeToFit];
@@ -141,6 +144,7 @@
 #pragma mark - UISearchBar Delegate
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
+    // Check if the view already contains the results table view
     if (![self.searchRecordsTableView isDescendantOfView:self.view]) {
         [self.view addSubview:self.searchRecordsTableView];
         [self setupCancelButtonWhenSearching];
@@ -148,6 +152,13 @@
     }
 }
 
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    self.searchTerm = self.searchBar.text;
+    [self endSearchHandler];
+}
+
+// Get history search records from NSUserdefaults
 - (void)retrieveSearchRecordsArr
 {
     //Init user defaults
@@ -157,25 +168,25 @@
     [self.searchRecordsTableView reloadData];
 }
 
--(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
-{
-    self.searchTerm = self.searchBar.text;
-    [self endSearchHandler];
-}
-
+// End search will
+//  1, reload collection view with new images
+//  2, initialize the variables, including page number and navigation bar
+//  3, add search term to NSUserDefaults
+//  4, remove search table view
 - (void)endSearchHandler
 {
     [self.imageURLsArray removeAllObjects];
-    self.noMoreItems = false;
     [self.imageCollectionView reloadData];
-    [self.searchBar resignFirstResponder];
+    self.page = 0;
+    [self loadImages];
+    self.noMoreItems = false;
     self.navigationItem.rightBarButtonItem = nil;
     [self handleAddSearchRecord];
-    self.page = 0;
+    [self.searchBar resignFirstResponder];
     [self.searchRecordsTableView removeFromSuperview];
-    [self loadImages];
 }
 
+// Add search term to NSUserDefaults
 - (void) handleAddSearchRecord {
     if (![self.searchRecordsArray containsObject:self.searchBar.text]) {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -185,14 +196,14 @@
     }
 }
 
-// add a cancel button in navigation bar to exit the search
+// Add a cancel button in navigation bar to exit the search
 - (void)setupCancelButtonWhenSearching
 {
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(exitSearch:)];
     self.navigationItem.rightBarButtonItem = backButton;
 }
 
-// exit search and go back to image list
+// Exit search and go back to image list
 - (void)exitSearch:(id)sender
 {
     self.searchBar.text = nil;
@@ -238,15 +249,6 @@
     return cell;
 }
 
-- (void)deleteRecordHandler:(UIButton *)button
-{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [self.searchRecordsArray removeObjectAtIndex:button.tag];
-    [defaults setObject:self.searchRecordsArray forKey:@"searchRecords"];
-    [defaults synchronize];
-    [self.searchRecordsTableView reloadData];
-}
-
 #pragma mark - UITableView Data Source
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -254,6 +256,16 @@
     self.searchBar.text = searchRecord;
     self.searchTerm = searchRecord;
     [self endSearchHandler];
+}
+
+// Delete search record from NSUserDefaults
+- (void)deleteRecordHandler:(UIButton *)button
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [self.searchRecordsArray removeObjectAtIndex:button.tag];
+    [defaults setObject:self.searchRecordsArray forKey:@"searchRecords"];
+    [defaults synchronize];
+    [self.searchRecordsTableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
