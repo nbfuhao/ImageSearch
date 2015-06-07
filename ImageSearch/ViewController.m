@@ -46,7 +46,6 @@
     return reachability.isReachable;
 }
 
-
 #pragma mark - Initialize Variables
 - (void)initVariables
 {
@@ -56,7 +55,7 @@
     self.networkManager = [ISNetworkManager sharedNetworkManager];
 }
 
-#pragma mark - Set Up NetworkManager
+#pragma mark - Load Images
 - (void)loadImages
 {
     [self.networkManager fetchImagesWithPageNumber:self.page WithSearchTerm:self.searchTerm WithCompletion:^(NSMutableArray *imageURLsArray) {
@@ -261,11 +260,11 @@
 // Delete search record from NSUserDefaults
 - (void)deleteRecordHandler:(UIButton *)button
 {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [self.searchRecordsArray removeObjectAtIndex:button.tag];
+    [self.searchRecordsTableView reloadData];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:self.searchRecordsArray forKey:@"searchRecords"];
     [defaults synchronize];
-    [self.searchRecordsTableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {

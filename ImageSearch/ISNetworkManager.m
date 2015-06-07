@@ -30,7 +30,7 @@
     return self;
 }
 
-// Fetch image URLS.
+// Fetch image URLS using AFNetworking
 - (void)fetchImagesWithPageNumber:(int)page WithSearchTerm:(NSString *)searchTerm WithCompletion:(void (^)(NSMutableArray *imageURLsArray))completion
 {
     // Make sure the images do not overlap
