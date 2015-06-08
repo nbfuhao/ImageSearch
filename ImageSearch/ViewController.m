@@ -248,7 +248,7 @@
     return cell;
 }
 
-#pragma mark - UITableView Data Source
+#pragma mark - UITableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *searchRecord = [self.searchRecordsArray objectAtIndex:indexPath.row];
