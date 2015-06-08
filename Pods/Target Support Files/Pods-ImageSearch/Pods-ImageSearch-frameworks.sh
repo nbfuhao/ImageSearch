@@ -51,11 +51,9 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'AFNetworking.framework'
   install_framework 'Reachability.framework'
   install_framework 'SDWebImage.framework'
-  install_framework 'SVProgressHUD.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'AFNetworking.framework'
   install_framework 'Reachability.framework'
   install_framework 'SDWebImage.framework'
-  install_framework 'SVProgressHUD.framework'
 fi

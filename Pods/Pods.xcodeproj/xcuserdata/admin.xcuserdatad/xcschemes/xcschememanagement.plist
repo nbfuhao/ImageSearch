@@ -19,11 +19,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-ImageSearch-SVProgressHUD.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>Pods-ImageSearch.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -32,27 +27,22 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>1CE327C8EC1C6A9E0D334922</key>
+		<key>5804389B8C275F610C259E67</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>4D0D043F422998F13458343F</key>
+		<key>5E0B39B7EAC315519646122C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>99B1AD66BE1679FACB75CB3E</key>
+		<key>7D84662FC7E9744D5D64C980</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>BB1268DF65402255D2DC8C23</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>C5B6B6B45B84411DDEAC0262</key>
+		<key>BDC05D6C2851B96ADC8AEB84</key>
 		<dict>
 			<key>primary</key>
 			<true/>

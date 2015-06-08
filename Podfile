@@ -4,6 +4,5 @@ use_frameworks!
 target 'ImageSearch' do
   pod 'AFNetworking'
   pod 'SDWebImage'
-  pod 'SVProgressHUD'
   pod 'Reachability'
 end

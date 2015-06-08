@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C5B6B6B45B84411DDEAC0262"
+               BlueprintIdentifier = "5E0B39B7EAC315519646122C"
                BuildableName = "Pods_ImageSearch.framework"
                BlueprintName = "Pods-ImageSearch"
                ReferencedContainer = "container:Pods.xcodeproj">
