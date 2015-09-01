@@ -1,6 +1,0 @@
-framework module Reachability {
-  umbrella header "Pods-ImageSearch-Reachability-umbrella.h"
-
-  export *
-  module * { export * }
-}
