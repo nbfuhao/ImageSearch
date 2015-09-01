@@ -46,11 +46,11 @@
                                            }
          success:^(AFHTTPRequestOperation *operation, id responseObject){
              NSMutableArray *imageURLsArray = [NSMutableArray array];
-             NSDictionary *responseDic = [responseObject objectForKey:@"responseData"];
+             NSDictionary *responseDic = responseObject[@"responseData"];
              if (![responseDic isKindOfClass:[NSNull class]]) {
-                 NSDictionary *resultDic = [responseDic objectForKey:@"results"];
+                 NSDictionary *resultDic = responseDic[@"results"];
                  for (NSDictionary *imageDic in resultDic) {
-                     NSString *imageURLStr = [imageDic objectForKey:@"url"];
+                     NSString *imageURLStr = imageDic[@"url"];
                      NSURL *imageURL = [NSURL URLWithString:imageURLStr];
                      [imageURLsArray addObject:imageURL];
                  }
