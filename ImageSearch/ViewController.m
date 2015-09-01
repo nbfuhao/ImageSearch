@@ -108,7 +108,11 @@
     static NSString *cellIdentifier = @"imageCell";
     imageCollectionViewCell *cell = [self.imageCollectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
     NSURL *imageURL = [self.imageURLsArray objectAtIndex:indexPath.row];
-    [cell.itemImageView sd_setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"placeholder"]];
+    [cell.loadingIndicator startAnimating];
+    [cell.itemImageView sd_setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"placeholder"] completed: ^(UIImage *image , NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        [cell.loadingIndicator stopAnimating];
+        NSLog(@"ended loading");
+    }];
     return cell;
 }
 

@@ -15,11 +15,15 @@
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ndk-KY-fx7">
                         <rect key="frame" x="0.0" y="0.0" width="96" height="96"/>
                     </imageView>
+                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Co8-rM-jRn">
+                        <rect key="frame" x="38" y="38" width="20" height="20"/>
+                    </activityIndicatorView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <connections>
                 <outlet property="itemImageView" destination="ndk-KY-fx7" id="xNS-64-lez"/>
+                <outlet property="loadingIndicator" destination="Co8-rM-jRn" id="P36-Ya-05m"/>
             </connections>
             <point key="canvasLocation" x="468.5" y="187.5"/>
         </collectionViewCell>
