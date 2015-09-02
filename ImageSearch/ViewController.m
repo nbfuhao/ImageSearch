@@ -63,8 +63,14 @@
             // Change the noMoreItems flag if the returned array is empty
             self.noMoreItems = true;
         } else {
+            NSMutableArray *indexPathsArray = [NSMutableArray array];
+            NSInteger previousRowCount = self.imageURLsArray.count;
+            for (int i = 0; i < imageURLsArray.count; i++ ) {
+                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:previousRowCount+i inSection:0];
+                [indexPathsArray addObject:indexPath];
+            }
             [self.imageURLsArray addObjectsFromArray:imageURLsArray];
-            [self.imageCollectionView reloadData];
+            [self.imageCollectionView insertItemsAtIndexPaths:indexPathsArray];
         }
     }];
 }
@@ -265,7 +271,10 @@
 - (void)deleteRecordHandler:(UIButton *)button
 {
     [self.searchRecordsArray removeObjectAtIndex:button.tag];
-    [self.searchRecordsTableView reloadData];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:button.tag inSection:0];
+    [self.searchRecordsTableView beginUpdates];
+    [self.searchRecordsTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.searchRecordsTableView endUpdates];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:self.searchRecordsArray forKey:@"searchRecords"];
     [defaults synchronize];
