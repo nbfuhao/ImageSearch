@@ -147,7 +147,6 @@
     // As required by the Google Image Search API docs
     self.searchBar.placeholder = @"Powered by Google";
     self.searchBar.delegate = self;
-    [self.searchBar sizeToFit];
     [self.navigationItem setTitleView:self.searchBar];
 }
 
