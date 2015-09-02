@@ -17,7 +17,6 @@
 		847856201B2244F7002F19FC /* ImageSearchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8478561F1B2244F7002F19FC /* ImageSearchTests.m */; };
 		8478562B1B227621002F19FC /* ISNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8478562A1B227621002F19FC /* ISNetworkManager.m */; };
 		8478562F1B229F58002F19FC /* imageCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8478562D1B229F58002F19FC /* imageCollectionViewCell.m */; };
-		847856301B229F58002F19FC /* imageCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8478562E1B229F58002F19FC /* imageCollectionViewCell.xib */; };
 		847856341B22E7EF002F19FC /* ISSearchRecordsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 847856321B22E7EF002F19FC /* ISSearchRecordsTableViewCell.m */; };
 		847856351B22E7EF002F19FC /* ISSearchRecordsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 847856331B22E7EF002F19FC /* ISSearchRecordsTableViewCell.xib */; };
 /* End PBXBuildFile section */
@@ -51,7 +50,6 @@
 		8478562A1B227621002F19FC /* ISNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISNetworkManager.m; sourceTree = "<group>"; };
 		8478562C1B229F58002F19FC /* imageCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imageCollectionViewCell.h; sourceTree = "<group>"; };
 		8478562D1B229F58002F19FC /* imageCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = imageCollectionViewCell.m; sourceTree = "<group>"; };
-		8478562E1B229F58002F19FC /* imageCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = imageCollectionViewCell.xib; sourceTree = "<group>"; };
 		847856311B22E7EF002F19FC /* ISSearchRecordsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISSearchRecordsTableViewCell.h; sourceTree = "<group>"; };
 		847856321B22E7EF002F19FC /* ISSearchRecordsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISSearchRecordsTableViewCell.m; sourceTree = "<group>"; };
 		847856331B22E7EF002F19FC /* ISSearchRecordsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ISSearchRecordsTableViewCell.xib; sourceTree = "<group>"; };
@@ -109,7 +107,6 @@
 				8478562A1B227621002F19FC /* ISNetworkManager.m */,
 				8478562C1B229F58002F19FC /* imageCollectionViewCell.h */,
 				8478562D1B229F58002F19FC /* imageCollectionViewCell.m */,
-				8478562E1B229F58002F19FC /* imageCollectionViewCell.xib */,
 				847856311B22E7EF002F19FC /* ISSearchRecordsTableViewCell.h */,
 				847856321B22E7EF002F19FC /* ISSearchRecordsTableViewCell.m */,
 				847856331B22E7EF002F19FC /* ISSearchRecordsTableViewCell.xib */,
@@ -250,7 +247,6 @@
 			files = (
 				8478560F1B2244F7002F19FC /* Main.storyboard in Resources */,
 				847856141B2244F7002F19FC /* LaunchScreen.xib in Resources */,
-				847856301B229F58002F19FC /* imageCollectionViewCell.xib in Resources */,
 				847856111B2244F7002F19FC /* Images.xcassets in Resources */,
 				847856351B22E7EF002F19FC /* ISSearchRecordsTableViewCell.xib in Resources */,
 			);

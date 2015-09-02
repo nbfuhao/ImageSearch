@@ -15,7 +15,8 @@
 #import <SVProgressHUD/SVProgressHUD.h>
 
 @interface ViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
-@property (nonatomic, strong) UICollectionView *imageCollectionView;
+
+@property (weak, nonatomic) IBOutlet UICollectionView *imageCollectionView;
 @property (nonatomic, strong) UISearchBar *searchBar;
 @property (nonatomic, strong) UITableView *searchRecordsTableView;
 @property (nonatomic, strong) ISNetworkManager *networkManager;
@@ -87,7 +88,7 @@
     [aFlowLayout setSectionInset:UIEdgeInsetsMake(15, 4, 15, 4)];
     
     // Initialize collection view
-    self.imageCollectionView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:aFlowLayout];
+//    self.imageCollectionView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:aFlowLayout];
     self.imageCollectionView.delegate = self;
     self.imageCollectionView.dataSource = self;
     [self.imageCollectionView setBackgroundColor:[UIColor blackColor]];
