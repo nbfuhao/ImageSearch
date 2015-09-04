@@ -13,6 +13,7 @@
 #import <Reachability/Reachability.h>
 #import "ISSearchRecordsTableViewCell.h"
 #import <SVProgressHUD/SVProgressHUD.h>
+#import "ISSearchRecordsStore.h"
 
 @interface ViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 
@@ -25,6 +26,7 @@
 @property (nonatomic, strong) NSMutableArray *searchRecordsArray;
 @property (nonatomic, assign) int page;
 @property (nonatomic, assign) BOOL noMoreItems;
+@property (nonatomic, strong) ISSearchRecordsStore *sharedStore;
 @end
 
 @implementation ViewController
@@ -34,6 +36,7 @@
     BOOL isReachable = [self checkReachability];
     if (isReachable) {
         [self initVariables];
+        self.sharedStore = [ISSearchRecordsStore sharedStore];
         [self setupImageCollectionView];
         [self setupSearchBar];
         [self setupSearchResultsTableView];
@@ -170,10 +173,7 @@
 // Get history search records from NSUserdefaults
 - (void)retrieveSearchRecordsArr
 {
-    //Init user defaults
-    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
-    //For retrieving
-    self.searchRecordsArray = [NSMutableArray arrayWithArray:[defaults objectForKey:@"searchRecords"]];
+    self.searchRecordsArray = [self.sharedStore retrieveSearchRecordsArr];
     [self.searchRecordsTableView reloadData];
 }
 
@@ -190,19 +190,9 @@
     [self loadImages];
     self.noMoreItems = false;
     self.navigationItem.rightBarButtonItem = nil;
-    [self handleAddSearchRecord];
+    [self.sharedStore handleAddSearchRecord:self.searchBar.text];
     [self.searchBar resignFirstResponder];
     [self.searchRecordsTableView removeFromSuperview];
-}
-
-// Add search term to NSUserDefaults
-- (void) handleAddSearchRecord {
-    if (![self.searchRecordsArray containsObject:self.searchBar.text]) {
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [self.searchRecordsArray insertObject:self.searchBar.text atIndex:0];
-        [defaults setObject:self.searchRecordsArray forKey:@"searchRecords"];
-        [defaults synchronize];
-    }
 }
 
 // Add a cancel button in navigation bar to exit the search
@@ -270,14 +260,11 @@
 // Delete search record from NSUserDefaults
 - (void)deleteRecordHandler:(UIButton *)button
 {
-    [self.searchRecordsArray removeObjectAtIndex:button.tag];
+    [self.sharedStore handleDeleteSearchRecordWithIndex:button.tag];
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:button.tag inSection:0];
     [self.searchRecordsTableView beginUpdates];
     [self.searchRecordsTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     [self.searchRecordsTableView endUpdates];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:self.searchRecordsArray forKey:@"searchRecords"];
-    [defaults synchronize];
 }
 
 - (void)didReceiveMemoryWarning {
