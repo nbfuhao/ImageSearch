@@ -7,7 +7,6 @@
 //
 
 #import "ISNetworkManager.h"
-#import <AFNetworking/AFNetworking.h>
 
 #define kBaseImageURL @"https://ajax.googleapis.com/ajax/services/search/images"
 
@@ -26,6 +25,7 @@
 
 - (id)init {
     if (self = [super init]) {
+        self.searchManager = [AFHTTPRequestOperationManager manager];
     }
     return self;
 }
@@ -35,8 +35,7 @@
 {
     // Make sure the images do not overlap
     NSString *pageNumber = [NSString stringWithFormat:@"%d", page*8];
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    [manager GET:kBaseImageURL parameters:@{
+    [self.searchManager GET:kBaseImageURL parameters:@{
                                            @"q": searchTerm,
                                            @"v": @"1.0",
                                            @"rsz": @"8",

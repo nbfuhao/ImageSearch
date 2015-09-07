@@ -7,8 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <AFNetworking/AFNetworking.h>
 
 @interface ISNetworkManager : NSObject
+@property (nonatomic, strong) AFHTTPRequestOperationManager *searchManager;
 
 +(id)sharedNetworkManager;
 

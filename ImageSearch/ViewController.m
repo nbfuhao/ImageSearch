@@ -186,6 +186,7 @@
 {
     [self.imageURLsArray removeAllObjects];
     [self.imageCollectionView reloadData];
+    [self.networkManager.searchManager.operationQueue cancelAllOperations];
     self.page = 0;
     [self loadImages];
     self.noMoreItems = false;
