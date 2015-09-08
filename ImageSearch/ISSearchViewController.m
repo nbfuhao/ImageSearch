@@ -72,31 +72,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-- (void)deleteRecordHandler:(UIButton *)button
-{
-    [self.sharedStore handleDeleteSearchRecordWithIndex:button.tag];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:button.tag inSection:0];
-    [self.searchRecordsTableView beginUpdates];
-    [self.searchRecordsTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-    [self.searchRecordsTableView endUpdates];
-}
-
 - (IBAction)closeButtonPressed:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-#pragma mark - helper methods
-- (void)retrieveSearchRecordsArr
-{
-    self.searchRecordsArray = [self.sharedStore retrieveSearchRecordsArr];
-    [self.searchRecordsTableView reloadData];
-}
-
-- (void)endSearchHandler
-{
-    [self.sharedStore handleAddSearchRecord:self.searchBar.text];
-    [self.searchBar resignFirstResponder];
-    [self.delegate searchViewControllerDidGetSearchTerm:self term:self.searchBar.text];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -109,5 +85,29 @@
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     [self endSearchHandler];
+}
+
+#pragma mark - helper methods
+- (void)retrieveSearchRecordsArr
+{
+    self.searchRecordsArray = [self.sharedStore retrieveSearchRecordsArr];
+    [self.searchRecordsTableView reloadData];
+}
+
+- (void)deleteRecordHandler:(UIButton *)button
+{
+    [self.sharedStore handleDeleteSearchRecordWithIndex:button.tag];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:button.tag inSection:0];
+    [self.searchRecordsTableView beginUpdates];
+    [self.searchRecordsTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.searchRecordsTableView endUpdates];
+}
+
+- (void)endSearchHandler
+{
+    [self.sharedStore handleAddSearchRecord:self.searchBar.text];
+    [self.searchBar resignFirstResponder];
+    [self.delegate searchViewControllerDidGetSearchTerm:self term:self.searchBar.text];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 @end

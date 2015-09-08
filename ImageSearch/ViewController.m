@@ -11,20 +11,15 @@
 #import "imageCollectionViewCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <Reachability/Reachability.h>
-#import "ISSearchRecordsTableViewCell.h"
-#import <SVProgressHUD/SVProgressHUD.h>
-#import "ISSearchRecordsStore.h"
 #import "ISSearchViewController.h"
 
 @interface ViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate, SearchViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *imageCollectionView;
 @property (nonatomic, strong) UISearchBar *searchBar;
-@property (nonatomic, strong) UITableView *searchRecordsTableView;
 @property (nonatomic, strong) ISNetworkManager *networkManager;
 @property (nonatomic, strong) NSMutableArray *imageURLsArray;
 @property (nonatomic, copy) NSString *searchTerm;
-@property (nonatomic, strong) NSMutableArray *searchRecordsArray;
 @property (nonatomic, assign) int page;
 @property (nonatomic, assign) BOOL noMoreItems;
 @property (nonatomic, strong) ISSearchRecordsStore *sharedStore;
@@ -95,7 +90,6 @@
     [aFlowLayout setSectionInset:UIEdgeInsetsMake(15, 4, 15, 4)];
     
     // Initialize collection view
-//    self.imageCollectionView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:aFlowLayout];
     self.imageCollectionView.delegate = self;
     self.imageCollectionView.dataSource = self;
     [self.imageCollectionView setBackgroundColor:[UIColor blackColor]];
@@ -175,21 +169,6 @@
     self.page = 0;
     self.searchBar.text = term;
     [self loadImages];
-}
-
-// Delete search record from NSUserDefaults
-- (void)deleteRecordHandler:(UIButton *)button
-{
-    [self.sharedStore handleDeleteSearchRecordWithIndex:button.tag];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:button.tag inSection:0];
-    [self.searchRecordsTableView beginUpdates];
-    [self.searchRecordsTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-    [self.searchRecordsTableView endUpdates];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end
