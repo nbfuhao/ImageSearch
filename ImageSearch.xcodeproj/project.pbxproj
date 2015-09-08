@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		23FC30951B994DB400967E2D /* ISSearchRecordsStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FC30941B994DB400967E2D /* ISSearchRecordsStore.m */; };
+		23FC309C1B9E5D6000967E2D /* ISSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FC309B1B9E5D6000967E2D /* ISSearchViewController.m */; };
 		506A71CF2EE46BF95E5A3606 /* Pods_ImageSearch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9D1DFA59C2CA769449A587D /* Pods_ImageSearch.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		847856061B2244F7002F19FC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 847856051B2244F7002F19FC /* main.m */; };
 		847856091B2244F7002F19FC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 847856081B2244F7002F19FC /* AppDelegate.m */; };
@@ -35,6 +36,8 @@
 /* Begin PBXFileReference section */
 		23FC30931B994DB400967E2D /* ISSearchRecordsStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISSearchRecordsStore.h; sourceTree = "<group>"; };
 		23FC30941B994DB400967E2D /* ISSearchRecordsStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISSearchRecordsStore.m; sourceTree = "<group>"; };
+		23FC309A1B9E5D6000967E2D /* ISSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISSearchViewController.h; sourceTree = "<group>"; };
+		23FC309B1B9E5D6000967E2D /* ISSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISSearchViewController.m; sourceTree = "<group>"; };
 		4FD1518D86E63E2B1FEB0D02 /* Pods-ImageSearch.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageSearch.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ImageSearch/Pods-ImageSearch.debug.xcconfig"; sourceTree = "<group>"; };
 		847856001B2244F6002F19FC /* ImageSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		847856041B2244F7002F19FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -116,6 +119,8 @@
 				23FC30941B994DB400967E2D /* ISSearchRecordsStore.m */,
 				847856331B22E7EF002F19FC /* ISSearchRecordsTableViewCell.xib */,
 				8478560D1B2244F7002F19FC /* Main.storyboard */,
+				23FC309A1B9E5D6000967E2D /* ISSearchViewController.h */,
+				23FC309B1B9E5D6000967E2D /* ISSearchViewController.m */,
 				847856101B2244F7002F19FC /* Images.xcassets */,
 				847856121B2244F7002F19FC /* LaunchScreen.xib */,
 				847856031B2244F6002F19FC /* Supporting Files */,
@@ -323,6 +328,7 @@
 				847856091B2244F7002F19FC /* AppDelegate.m in Sources */,
 				847856341B22E7EF002F19FC /* ISSearchRecordsTableViewCell.m in Sources */,
 				8478562B1B227621002F19FC /* ISNetworkManager.m in Sources */,
+				23FC309C1B9E5D6000967E2D /* ISSearchViewController.m in Sources */,
 				8478562F1B229F58002F19FC /* imageCollectionViewCell.m in Sources */,
 				847856061B2244F7002F19FC /* main.m in Sources */,
 				23FC30951B994DB400967E2D /* ISSearchRecordsStore.m in Sources */,

@@ -85,5 +85,60 @@
             </objects>
             <point key="canvasLocation" x="536" y="338"/>
         </scene>
+        <!--Search View Controller-->
+        <scene sceneID="vWU-UQ-xUv">
+            <objects>
+                <viewController storyboardIdentifier="searchVC" id="Dk3-Pj-wsn" customClass="ISSearchViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="LLG-Fc-9fs"/>
+                        <viewControllerLayoutGuide type="bottom" id="ZTv-MW-ahB"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="mhJ-TA-aRW">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eRN-Xc-4K9">
+                                <rect key="frame" x="537" y="28" width="40" height="30"/>
+                                <state key="normal" title="Close">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="closeButtonPressed:" destination="Dk3-Pj-wsn" eventType="touchUpInside" id="klR-12-MJd"/>
+                                </connections>
+                            </button>
+                            <searchBar contentMode="redraw" placeholder="Powered by Google" translatesAutoresizingMaskIntoConstraints="NO" id="yzy-O6-TTX">
+                                <rect key="frame" x="0.0" y="20" width="514" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="2gb-eH-vzt"/>
+                                </constraints>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="eCF-se-ChB">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="eCF-se-ChB" firstAttribute="top" secondItem="yzy-O6-TTX" secondAttribute="bottom" id="4cn-4w-GQK"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="eCF-se-ChB" secondAttribute="trailing" constant="-16" id="GcV-Ej-7fa"/>
+                            <constraint firstItem="ZTv-MW-ahB" firstAttribute="top" secondItem="eCF-se-ChB" secondAttribute="bottom" id="IXe-JN-6S4"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="eRN-Xc-4K9" secondAttribute="trailing" constant="7" id="Jj5-Qf-0Ca"/>
+                            <constraint firstItem="eCF-se-ChB" firstAttribute="leading" secondItem="mhJ-TA-aRW" secondAttribute="leadingMargin" constant="-16" id="XAc-N6-RV5"/>
+                            <constraint firstItem="yzy-O6-TTX" firstAttribute="leading" secondItem="mhJ-TA-aRW" secondAttribute="leadingMargin" constant="-16" id="gR7-tb-yhk"/>
+                            <constraint firstItem="eRN-Xc-4K9" firstAttribute="leading" secondItem="yzy-O6-TTX" secondAttribute="trailing" constant="23" id="iXb-vb-c07"/>
+                            <constraint firstItem="eRN-Xc-4K9" firstAttribute="top" secondItem="LLG-Fc-9fs" secondAttribute="bottom" constant="8" id="psd-OY-ci0"/>
+                            <constraint firstItem="yzy-O6-TTX" firstAttribute="top" secondItem="mhJ-TA-aRW" secondAttribute="topMargin" constant="20" id="tE5-P4-BG9"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="searchBar" destination="yzy-O6-TTX" id="ViP-S0-6vU"/>
+                        <outlet property="searchRecordsTableView" destination="eCF-se-ChB" id="Dmk-pT-xJI"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QN3-6b-bVN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1266" y="338"/>
+        </scene>
     </scenes>
 </document>

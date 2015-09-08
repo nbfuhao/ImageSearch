@@ -14,8 +14,9 @@
 #import "ISSearchRecordsTableViewCell.h"
 #import <SVProgressHUD/SVProgressHUD.h>
 #import "ISSearchRecordsStore.h"
+#import "ISSearchViewController.h"
 
-@interface ViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface ViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate, SearchViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *imageCollectionView;
 @property (nonatomic, strong) UISearchBar *searchBar;
@@ -27,6 +28,7 @@
 @property (nonatomic, assign) int page;
 @property (nonatomic, assign) BOOL noMoreItems;
 @property (nonatomic, strong) ISSearchRecordsStore *sharedStore;
+@property (nonatomic, strong) ISSearchViewController *searchVC;
 @end
 
 @implementation ViewController
@@ -39,7 +41,6 @@
         self.sharedStore = [ISSearchRecordsStore sharedStore];
         [self setupImageCollectionView];
         [self setupSearchBar];
-        [self setupSearchResultsTableView];
     }
 }
 
@@ -57,6 +58,9 @@
     self.page = 0;
     self.imageURLsArray = [NSMutableArray array];
     self.networkManager = [ISNetworkManager sharedNetworkManager];
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    self.searchVC = [sb instantiateViewControllerWithIdentifier:@"searchVC"];
+    self.searchVC.delegate = self;
 }
 
 #pragma mark - Load Images
@@ -156,106 +160,21 @@
 #pragma mark - UISearchBar Delegate
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
-    // Check if the view already contains the results table view
-    if (![self.searchRecordsTableView isDescendantOfView:self.view]) {
-        [self.view addSubview:self.searchRecordsTableView];
-        [self setupCancelButtonWhenSearching];
-        [self retrieveSearchRecordsArr];
-    }
+    self.searchVC.modalPresentationStyle = UIModalPresentationFormSheet;
+    self.searchVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [self presentViewController:self.searchVC animated:YES completion:nil];
 }
 
--(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+#pragma mark - ISSearchViewController Delegate
+- (void)searchViewControllerDidGetSearchTerm:(ISSearchViewController *)searchViewController term:(NSString *)term
 {
-    self.searchTerm = self.searchBar.text;
-    [self endSearchHandler];
-}
-
-// Get history search records from NSUserdefaults
-- (void)retrieveSearchRecordsArr
-{
-    self.searchRecordsArray = [self.sharedStore retrieveSearchRecordsArr];
-    [self.searchRecordsTableView reloadData];
-}
-
-// End search will
-//  1, reload collection view with new images
-//  2, initialize the variables, including page number and navigation bar
-//  3, add search term to NSUserDefaults
-//  4, remove search table view
-- (void)endSearchHandler
-{
+    self.searchTerm = term;
     [self.imageURLsArray removeAllObjects];
     [self.imageCollectionView reloadData];
     [self.networkManager.searchManager.operationQueue cancelAllOperations];
     self.page = 0;
+    self.searchBar.text = term;
     [self loadImages];
-    self.noMoreItems = false;
-    self.navigationItem.rightBarButtonItem = nil;
-    [self.sharedStore handleAddSearchRecord:self.searchBar.text];
-    [self.searchBar resignFirstResponder];
-    [self.searchRecordsTableView removeFromSuperview];
-}
-
-// Add a cancel button in navigation bar to exit the search
-- (void)setupCancelButtonWhenSearching
-{
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(exitSearch:)];
-    self.navigationItem.rightBarButtonItem = backButton;
-}
-
-// Exit search and go back to image list
-- (void)exitSearch:(id)sender
-{
-    self.searchBar.text = nil;
-    [self.searchBar resignFirstResponder];
-    self.navigationItem.rightBarButtonItem = nil;
-    [self.searchRecordsTableView removeFromSuperview];
-}
-
-#pragma mark - set up searchResultsTableView
-// initialize searchResultsTableView
-- (void)setupSearchResultsTableView
-{
-    CGRect frame = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height-64);
-    self.searchRecordsTableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
-    self.searchRecordsTableView.delegate = self;
-    self.searchRecordsTableView.dataSource = self;
-}
-
-#pragma mark - UITableView Data Source
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return self.searchRecordsArray.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *cellIdentifier = @"searchResultsCell";
-    [tableView registerNib:[UINib nibWithNibName:@"ISSearchRecordsTableViewCell" bundle:NULL] forCellReuseIdentifier:cellIdentifier];
-
-    ISSearchRecordsTableViewCell *cell = (ISSearchRecordsTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    if (!cell) {
-        cell = [[ISSearchRecordsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-    }
-    NSString *searchRecord = [self.searchRecordsArray objectAtIndex:indexPath.row];
-    cell.searchRecordLabel.text = searchRecord;
-    cell.deleteButton.tag = indexPath.row;
-    [cell.deleteButton addTarget:self action:@selector(deleteRecordHandler:) forControlEvents:UIControlEventTouchUpInside];
-    return cell;
-}
-
-#pragma mark - UITableView Delegate
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSString *searchRecord = [self.searchRecordsArray objectAtIndex:indexPath.row];
-    self.searchBar.text = searchRecord;
-    self.searchTerm = searchRecord;
-    [self endSearchHandler];
 }
 
 // Delete search record from NSUserDefaults
