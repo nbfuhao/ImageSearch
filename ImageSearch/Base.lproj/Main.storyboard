@@ -116,6 +116,46 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="eCF-se-ChB">
                                 <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="searchResultsCell" id="nC4-d6-VI4" customClass="ISSearchRecordsTableViewCell">
+                                        <rect key="frame" x="140" y="278" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nC4-d6-VI4" id="iL2-5x-1cu">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WDv-rk-BMd">
+                                                    <rect key="frame" x="561" y="12" width="20" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="20" id="Ybd-AD-6kX"/>
+                                                        <constraint firstAttribute="height" constant="20" id="pnl-O6-pW4"/>
+                                                    </constraints>
+                                                    <state key="normal" title="Button" image="deleteButton">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="89O-Ax-hMY">
+                                                    <rect key="frame" x="15" y="8" width="538" height="27"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="89O-Ax-hMY" firstAttribute="leading" secondItem="iL2-5x-1cu" secondAttribute="leadingMargin" constant="7" id="2rd-Yq-reN"/>
+                                                <constraint firstItem="WDv-rk-BMd" firstAttribute="leading" secondItem="89O-Ax-hMY" secondAttribute="trailing" constant="8" id="5h6-D8-qsy"/>
+                                                <constraint firstItem="89O-Ax-hMY" firstAttribute="top" secondItem="iL2-5x-1cu" secondAttribute="topMargin" id="TwL-wc-kma"/>
+                                                <constraint firstItem="WDv-rk-BMd" firstAttribute="top" secondItem="iL2-5x-1cu" secondAttribute="topMargin" constant="4" id="hUo-Ou-hfg"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="89O-Ax-hMY" secondAttribute="bottom" constant="0.5" id="jCq-QE-lcY"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="WDv-rk-BMd" secondAttribute="trailing" constant="11" id="wQC-le-ZVX"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="deleteButton" destination="WDv-rk-BMd" id="jmD-hy-PGR"/>
+                                            <outlet property="searchRecordLabel" destination="89O-Ax-hMY" id="UHT-iR-RTT"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -141,4 +181,7 @@
             <point key="canvasLocation" x="1266" y="338"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="deleteButton" width="128" height="128"/>
+    </resources>
 </document>

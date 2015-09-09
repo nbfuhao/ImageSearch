@@ -22,7 +22,6 @@
 @property (nonatomic, copy) NSString *searchTerm;
 @property (nonatomic, assign) int page;
 @property (nonatomic, assign) BOOL noMoreItems;
-@property (nonatomic, strong) ISSearchRecordsStore *sharedStore;
 @property (nonatomic, strong) ISSearchViewController *searchVC;
 @end
 
@@ -33,7 +32,6 @@
     BOOL isReachable = [self checkReachability];
     if (isReachable) {
         [self initVariables];
-        self.sharedStore = [ISSearchRecordsStore sharedStore];
         [self setupImageCollectionView];
         [self setupSearchBar];
     }
@@ -90,6 +88,7 @@
     [aFlowLayout setSectionInset:UIEdgeInsetsMake(15, 4, 15, 4)];
     
     // Initialize collection view
+//    self.imageCollectionView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:aFlowLayout];
     self.imageCollectionView.delegate = self;
     self.imageCollectionView.dataSource = self;
     [self.imageCollectionView setBackgroundColor:[UIColor blackColor]];
@@ -119,7 +118,6 @@
     [cell.loadingIndicator startAnimating];
     [cell.itemImageView sd_setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"placeholder"] completed: ^(UIImage *image , NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         [cell.loadingIndicator stopAnimating];
-        NSLog(@"ended loading");
     }];
     return cell;
 }

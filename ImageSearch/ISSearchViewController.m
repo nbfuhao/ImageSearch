@@ -9,6 +9,9 @@
 #import "ISSearchViewController.h"
 #import "ISSearchRecordsStore.h"
 #import "ISSearchRecordsTableViewCell.h"
+
+static NSString *cellIdentifier = @"searchResultsCell";
+
 @interface ISSearchViewController()<UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource>
 - (IBAction)closeButtonPressed:(id)sender;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
@@ -48,16 +51,14 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *cellIdentifier = @"searchResultsCell";
-    [tableView registerNib:[UINib nibWithNibName:@"ISSearchRecordsTableViewCell" bundle:NULL] forCellReuseIdentifier:cellIdentifier];
-    
-    ISSearchRecordsTableViewCell *cell = (ISSearchRecordsTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+{    
+    ISSearchRecordsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (!cell) {
         cell = [[ISSearchRecordsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     NSString *searchRecord = [self.searchRecordsArray objectAtIndex:indexPath.row];
     cell.searchRecordLabel.text = searchRecord;
+    //cell.textLabel.text = @"klj";
     cell.deleteButton.tag = indexPath.row;
     [cell.deleteButton addTarget:self action:@selector(deleteRecordHandler:) forControlEvents:UIControlEventTouchUpInside];
     return cell;

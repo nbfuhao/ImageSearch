@@ -20,7 +20,6 @@
 		8478562B1B227621002F19FC /* ISNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8478562A1B227621002F19FC /* ISNetworkManager.m */; };
 		8478562F1B229F58002F19FC /* imageCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8478562D1B229F58002F19FC /* imageCollectionViewCell.m */; };
 		847856341B22E7EF002F19FC /* ISSearchRecordsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 847856321B22E7EF002F19FC /* ISSearchRecordsTableViewCell.m */; };
-		847856351B22E7EF002F19FC /* ISSearchRecordsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 847856331B22E7EF002F19FC /* ISSearchRecordsTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,7 +57,6 @@
 		8478562D1B229F58002F19FC /* imageCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = imageCollectionViewCell.m; sourceTree = "<group>"; };
 		847856311B22E7EF002F19FC /* ISSearchRecordsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISSearchRecordsTableViewCell.h; sourceTree = "<group>"; };
 		847856321B22E7EF002F19FC /* ISSearchRecordsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISSearchRecordsTableViewCell.m; sourceTree = "<group>"; };
-		847856331B22E7EF002F19FC /* ISSearchRecordsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ISSearchRecordsTableViewCell.xib; sourceTree = "<group>"; };
 		8A194FA8A4B8589DCC009D93 /* Pods-ImageSearch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageSearch.release.xcconfig"; path = "Pods/Target Support Files/Pods-ImageSearch/Pods-ImageSearch.release.xcconfig"; sourceTree = "<group>"; };
 		B9D1DFA59C2CA769449A587D /* Pods_ImageSearch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ImageSearch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -117,7 +115,6 @@
 				847856321B22E7EF002F19FC /* ISSearchRecordsTableViewCell.m */,
 				23FC30931B994DB400967E2D /* ISSearchRecordsStore.h */,
 				23FC30941B994DB400967E2D /* ISSearchRecordsStore.m */,
-				847856331B22E7EF002F19FC /* ISSearchRecordsTableViewCell.xib */,
 				8478560D1B2244F7002F19FC /* Main.storyboard */,
 				23FC309A1B9E5D6000967E2D /* ISSearchViewController.h */,
 				23FC309B1B9E5D6000967E2D /* ISSearchViewController.m */,
@@ -258,7 +255,6 @@
 				8478560F1B2244F7002F19FC /* Main.storyboard in Resources */,
 				847856141B2244F7002F19FC /* LaunchScreen.xib in Resources */,
 				847856111B2244F7002F19FC /* Images.xcassets in Resources */,
-				847856351B22E7EF002F19FC /* ISSearchRecordsTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
