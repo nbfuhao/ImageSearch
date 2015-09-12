@@ -37,6 +37,12 @@
     }
 }
 
+- (void)viewWillAppear
+{
+    [super viewWillAppear:YES];
+    [self initVariables];
+}
+
 #pragma mark - check reachability
 -(BOOL)checkReachability
 {
