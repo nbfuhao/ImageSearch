@@ -40,7 +40,7 @@
 - (void)viewWillAppear
 {
     [super viewWillAppear:YES];
-    [self initVariables];
+    self.noMoreItems = false;
 }
 
 #pragma mark - check reachability
