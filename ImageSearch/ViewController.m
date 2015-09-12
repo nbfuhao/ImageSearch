@@ -98,10 +98,6 @@
     self.imageCollectionView.delegate = self;
     self.imageCollectionView.dataSource = self;
     [self.imageCollectionView setBackgroundColor:[UIColor blackColor]];
-    
-    // Register the custom collection view cell with the view
-    UINib *liveNib = [UINib nibWithNibName:@"imageCollectionViewCell" bundle:nil];
-    [self.imageCollectionView registerNib:liveNib forCellWithReuseIdentifier:@"imageCell"];
     [self.view addSubview:self.imageCollectionView];
 }
 
