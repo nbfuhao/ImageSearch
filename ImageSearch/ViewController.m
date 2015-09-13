@@ -23,6 +23,7 @@
 @property (nonatomic, assign) int page;
 @property (nonatomic, assign) BOOL noMoreItems;
 @property (nonatomic, strong) ISSearchViewController *searchVC;
+@property (nonatomic, strong) NSMutableDictionary *imageDictionary;
 @end
 
 @implementation ViewController
@@ -40,7 +41,6 @@
 - (void)viewWillAppear
 {
     [super viewWillAppear:YES];
-    self.noMoreItems = false;
 }
 
 #pragma mark - check reachability
@@ -60,6 +60,7 @@
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     self.searchVC = [sb instantiateViewControllerWithIdentifier:@"searchVC"];
     self.searchVC.delegate = self;
+    self.imageDictionary  = [NSMutableDictionary dictionary];
 }
 
 #pragma mark - Load Images
@@ -119,10 +120,25 @@
     NSURL *imageURL = [self.imageURLsArray objectAtIndex:indexPath.row];
     [cell.loadingIndicator startAnimating];
     [cell.itemImageView sd_setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"placeholder"] completed: ^(UIImage *image , NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        if (image) {
+            [self.imageDictionary setObject:image forKey:indexPath];
+            //[self.imageCollectionView.collectionViewLayout invalidateLayout];
+        }
         [cell.loadingIndicator stopAnimating];
     }];
     return cell;
 }
+//
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    UIImage *image = [self.imageDictionary objectForKey:indexPath];
+//    CGSize size = CGSizeMake(96, 96);
+//    if (image) {
+//        size = CGSizeMake(96, (image.size.height*96)/image.size.width);
+//    }
+//    NSLog(@"size %f, for indexPath, %ld", size.height, (long)indexPath.row);
+//    return size;
+//}
 
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath NS_AVAILABLE_IOS(8_0);
 {
@@ -167,6 +183,7 @@
     [self.imageCollectionView reloadData];
     [self.networkManager.searchManager.operationQueue cancelAllOperations];
     self.page = 0;
+    self.noMoreItems = false;
     self.searchBar.text = term;
     [self loadImages];
 }
