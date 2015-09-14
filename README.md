@@ -3,7 +3,7 @@ A simple image search API using Google Image Search API. A good practice of usin
 
 TODO:
 
-- [ ] Adjust aspect ratio for image so they are not square.
+- [X] Adjust aspect ratio for image so they are not square.
 - [X] Add loading indicators.
 - [X] Split history management logic. 
 - [X] Eliminate race conditions by cancelling existing network request.
