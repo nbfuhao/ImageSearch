@@ -87,12 +87,12 @@
 - (void)setupImageCollectionView
 {
     // Set a flow layout for the collection view
-    UICollectionViewFlowLayout *aFlowLayout = [[UICollectionViewFlowLayout alloc] init];
-    [aFlowLayout setItemSize:CGSizeMake(96,96)];
-    [aFlowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
-    [aFlowLayout setMinimumInteritemSpacing:10];
-    [aFlowLayout setMinimumLineSpacing:15];
-    [aFlowLayout setSectionInset:UIEdgeInsetsMake(15, 4, 15, 4)];
+//    UICollectionViewFlowLayout *aFlowLayout = [[UICollectionViewFlowLayout alloc] init];
+//    [aFlowLayout setItemSize:CGSizeMake(96,96)];
+//    [aFlowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
+//    [aFlowLayout setMinimumInteritemSpacing:10];
+//    [aFlowLayout setMinimumLineSpacing:15];
+//    [aFlowLayout setSectionInset:UIEdgeInsetsMake(15, 4, 15, 4)];
     
     // Initialize collection view
 //    self.imageCollectionView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:aFlowLayout];
@@ -122,23 +122,23 @@
     [cell.itemImageView sd_setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"placeholder"] completed: ^(UIImage *image , NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         if (image) {
             [self.imageDictionary setObject:image forKey:indexPath];
-            //[self.imageCollectionView.collectionViewLayout invalidateLayout];
+            [self.imageCollectionView.collectionViewLayout invalidateLayout];
         }
         [cell.loadingIndicator stopAnimating];
     }];
     return cell;
 }
-//
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    UIImage *image = [self.imageDictionary objectForKey:indexPath];
-//    CGSize size = CGSizeMake(96, 96);
-//    if (image) {
-//        size = CGSizeMake(96, (image.size.height*96)/image.size.width);
-//    }
-//    NSLog(@"size %f, for indexPath, %ld", size.height, (long)indexPath.row);
-//    return size;
-//}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    UIImage *image = [self.imageDictionary objectForKey:indexPath];
+    CGSize size = CGSizeMake(96, 96);
+    if (image) {
+        size = CGSizeMake(96, (image.size.height*96)/image.size.width);
+    }
+    NSLog(@"size %f, for indexPath, %ld, %ld", size.height, (long)indexPath.row, (long)indexPath.section);
+    return size;
+}
 
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath NS_AVAILABLE_IOS(8_0);
 {
